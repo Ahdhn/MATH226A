@@ -1,0 +1,11 @@
+*.aux
+*.bbl
+*.blg
+*.log
+*.gz
+*.synctex.gz
+*.brf
+*.lbl
+*.dvi
+*.out
+*.asv

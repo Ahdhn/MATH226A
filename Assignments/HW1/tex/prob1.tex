@@ -1,0 +1,43 @@
+\section*{Problem No.1} \label{sec:prob1}
+
+\paragraph{Part (a)} 
+The following MATLAB code computes the exponential function $f(x)=e^x$ using the truncated series up to $n$ terms. 
+\begin{lstlisting}
+	function approx_exp = ApproxExpFunc(x, n)
+    %Approximate the exponential using truncated series    
+    approx_exp = 1;  %first term is 1 (x^(0)/0!)
+    j_factorial = 1; %start with factorial of 0
+    for j=1:n
+        j_factorial = j_factorial*(j);
+        approx_exp = approx_exp + (x^(j))/j_factorial;    
+    	end
+	end
+\end{lstlisting}
+
+With $n=10$ and $x=\pm 5$, the relative error is of order $10^{-11}$. However for $x= 30\pi$, it is $\approx 1$ and for $x=-30\pi$, it is $10^{54}$. Using higher value for $n$ (i.e., $n=40$), it helps decreasing the relative error for $x=\pm 5$ to be $ <10^{-16}$, it does not affect relative error of  $x= 30\pi$ but it increases the relative error for  $x=-30\pi$ to be $10^{71}$. 
+ 
+The reason behind that is the ????????????????????????????
+
+\paragraph{Part (b)} Using remainder theorem for Taylor series, we can expect the error to be $<10^{-13}$ only when $abs(x) < 0.33$. This is derived by solving the following:
+
+$$
+E(x) = \frac{ abs(e^x - R_{n,x})}{e^x} = \frac{e^x - \sum_{j=0}^{n}}{e^x} <10^{13}
+$$
+where $n=10$. Using the fact that $e^{x} = e^{x/2 + x/2}=e^{x/2}  e^{x/2}$, we can designed an algorithm that runs recursively by splitting $x$ into half and only runs the truncated series when $abs(x) < 0.33$. The following MATLAB code implements such an algorithm. As a safe guard, we used $abs(x)<0.2$. This gives a relative error for inputs $-100 \leq x  \leq 100$ to be always $<10^{-13}$.
+
+\begin{lstlisting}
+function accurate_exp = AccurateExpFunc(x,n)
+    %More accurate approximation for the exp function
+    %it exploites the fact that exp(x) = exp(x/2+x/2) = exp(x/2)*exp(x/2)
+    %with in mind that ApproxExpFunc() give good approximation 
+    %(relative err < 10^-13) for x<0.2
+    
+    if abs(x) < 0.2
+       accurate_exp = ApproxExpFunc(x, n);
+    else 
+        accurate_exp = AccurateExpFunc(x/2, n);
+        accurate_exp = accurate_exp*accurate_exp;
+    end
+end
+\end{lstlisting}
+
