@@ -1,6 +1,19 @@
 \section*{Problem No.2} \label{sec:prob2}
-
-\paragraph{Part (b)} 
+\paragraph{Part (a):} 
+Due to the inexact representation of number using the IEEE standards in MATLAB, summing or subtracting numbers that are too close to one another will produce erroneous results depending on the relative error. The relative error or $\epsilon_{machine}$ is defined as 
+$$
+\frac{|fl(x)-x|}{|x|} \leq \frac{2^{m-k}}{|x|}
+$$
+where $fl(x)$ is the floating-point representation of $x$ $m$ is the number of bits used for the exponent and $k$ is number of bits used for the mantissa. For double precision, MATLAB $\epsilon_{machine}=2.2\times10^{-16}$ means if two numbers have the same 16 digits after the floating point, then the computer will store them as the same number. Using WolframAlpha which uses much lower $\epsilon_{machine}$ and can represent numbers more accurately, we get
+$$
+atan(x+1) = 1.570796316794896719231321024973084775431998033019552910498\\
+$$
+$$
+atan(x)=1.570796316794896619231322024973084775431898033020886243822
+$$
+for $x=10^8$ which differ after the 47th digit. This explains why MATLAB calculates $I(x)$ to be 0 for $x=10^8$.
+ 
+\paragraph{Part (b):} 
 
 $I(x)$ can be evaluated as follows:
 \[
@@ -15,3 +28,64 @@ $$
 $$
 I(x) = \frac{1}{2i}  \left( ln\left(\frac{x+1-i}{x+1+i}\right) - ln\left(\frac{x-i}{x+i}\right)\right)
 $$
+
+
+\paragraph{Part (c):} The above formula is implemented using the following MATLAB code:
+
+\begin{lstlisting}
+values = zeros(2,10);
+for i=1:12
+    x = power(10,i-1);
+    values(1,i) = atan(x+1) - atan(x);
+    values(2,i) = (1/2i)*(log((x+1-1i)/(x+1+1i)) - log((x-1i)/(x+1i)));
+end
+\end{lstlisting}
+
+Using the above formula gives more accurate evaluation for $I(x)$ for large values of $x$. The following table shows a comparsion between the two formulae
+
+%============table========
+\begin{figure}[tbh]
+ \centering  
+  
+\begin{tabular}{ |p{2cm}|| p{7cm}|p{7cm}|}
+ \hline
+ $x$ &  $I(x)=arctan(x+1) - arctan(x)$  & $I(x) = \frac{1}{2i}  \left( ln\left(\frac{x+1-i}{x+1+i}\right) - ln\left(\frac{x-i}{x+i}\right)\right)$ \\ \hhline{|=|=|=|}
+ $10^0$          &$0.3217$        &$0.3217$ \\
+ \hline
+ $10^1$          &$0.009$        &$0.009 + 5.551\times 10^{-17}i$ \\
+ \hline
+ $10^2$          &$9.9 \times 10^{-05}$        &$9.9\times 10^{-05} - 5.55\times 10^{-17}i$ \\
+ \hline
+ $10^3$          &$9.99\times 10^{-07}$        &$9.99\times 10^{-07}$ \\
+ \hline
+ $10^4$          &$9.99\times 10^{-09}$        &$9.999\times 10^{-09}$ \\
+ \hline
+ $10^5$          &$9.999\times 10^{-11}$        &$9.999\times 10^{-11}$ \\
+ \hline
+ $10^6$          &$1.0\times 10^{-12}$        &$9.999\times 10^{-13}$ \\
+ \hline
+ $10^7$          &$9.99\times 10^{-15}$        &$9.999\times 10^{-15}$ \\
+ \hline
+ $10^8$          &$0$        &$9.999\times 10^{-17}$ \\
+ \hline
+ $10^9$          &$0$        &$1.0\times 10^{-18}$ \\
+ \hline
+ $10^10$         &$0$        &$1.0\times 10^{-20}$ \\
+ \hline
+ $10^10$         &$0$        &$9.999\times 10^{-23}$ \\
+ \hline
+ \hline
+
+\end{tabular}
+  \caption{Comparing the results of the two formulae of $I(x)$}
+   
+\end{figure} 
+%============table========
+While the logarithm formula works well, it was hard to find a good explanation on why it works. The only thing we can think of is that the computation of logarithm would split out the lose in precision into two numbers; real and imaginary part. Using WolframAlpha, we get 
+$$		                                                                
+ ln\left(\frac{x+1-i}{x+1+i}\right) = 18.42068076395236532214393 + 9.99999970000000566 \times 10^{-9}
+$$
+$$
+ ln\left(\frac{x-i}{x+i}\right) = 18.42068074395236552214393+ 9.99999989999999966 \times 10^{-9}
+$$
+Both the real and imaginary parts starts to change after the 8th digits which is within MATLAB $\epsilon_{machine}$.

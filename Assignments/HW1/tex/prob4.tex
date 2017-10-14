@@ -1,3 +1,79 @@
 \section*{Problem No.4} \label{sec:prob4}
 
-\paragraph{Part 1:} 
+\paragraph{Part (a):}
+
+The following MATLAB code gives he roots of $q_{20}(x)$
+\begin{lstlisting}
+len = 20; 
+my_coef = poly(1:len);  %polynomial coefficients 
+myfunc = @(x)(dot(my_coef,fliplr(x.^(0:len)))); %evaluate the function
+for n=1:20
+    myroots(n)= fzero(myfunc,n);%compute the roots 
+end
+\end{lstlisting}
+
+The following table shows the computed roots and their relative error.
+
+%============table========
+\begin{figure}[tbh]
+ \centering  
+  
+\begin{tabular}{ |p{1cm}|| p{4cm}|p{4cm}|| }
+ \hline
+ Roots & Computed Roots &  Relative Error \\ \hhline{|=|=|=|}
+ 
+ $1$         & $1.00000000000002$ &$1.66\times 10^{-14}$ \\ 
+ \hline
+ $2$         & $1.99999999999818$ &$9.12\times 10^{-13}$ \\ 
+ \hline
+ $3$         & $2.99999999987685$ &$4.1\times 10^{-11}$  \\ 
+ \hline
+ $4$         & $3.99999999924887$ &$1.87\times 10^{-10}$ \\ 
+ \hline
+ $5$         & $4.99999989718256$ &$2.05\times 10^{-08}$ \\ 
+ \hline
+ $6$         & $5.99999964408192$ &$5.93\times 10^{-08}$ \\ 
+ \hline
+ $7$         & $6.99999873201243$ &$1.81\times 10^{-07}$ \\ 
+ \hline
+ $8$         & $8.00007430109597$ &$9.28\times 10^{-06}$ \\ 
+ \hline
+ $9$         & $8.99991151599290$ &$9.83\times 10^{-06}$ \\ 
+ \hline
+ $10$        & $10.0012614707793$ &$0.0001261470$ \\ 
+ \hline
+ $11$        & $10.9986699763350$ &$0.0001209112$ \\ 
+ \hline
+ $12$        & $12.0010679612454$ &$8.89\times 10^{-05}$ \\ 
+ \hline
+ $13$        & $12.9898962726694$ &$0.0007772097$ \\ 
+ \hline
+ $14$        & $13.9862010112533$ &$0.0009856420$ \\ 
+ \hline
+ $15$        & $14.9911248987563$ &$0.0005916734$ \\ 
+ \hline
+ $16$        & $16.0072667703389$ &$0.0004541731$ \\ 
+ \hline
+ $17$        & $17.0083345992558$ &$0.0004902705$ \\ 
+ \hline
+ $18$        & $17.9978407613650$ &$0.0001199577$ \\ 
+ \hline
+ $19$        & $18.9994453570967$ &$2.91\times 10^{-05}$ \\ 
+ \hline
+ $20$        & $19.9999434578583$ &$2.82\times 10^{-06}$ \\ 
+ \hline 
+\end{tabular}
+  \caption{The $q_{20}(x)$ computed roots using the \textbf{fzero} function along with their relative error.}   
+\end{figure} 
+%============table========
+Only the first four roots are computed with accuracy up to first 10-digits. After that the accuracy degrades. The root with least accuracy is for 14th root.  
+
+\paragraph{Part (b):}
+Let the perturbation in the $j$th root $r_{j}$ to be $\delta r_{j}$ such that $\delta r_{j}=\frac{-(\delta a_{i})r_{j}^{i}}{p^{\prime}(r_{j})}$, where $p^{\prime}$ is the derivative of $p$. The condition number of $r_{j}$ due to perturbation in $a_{i}$ is
+$$
+\kappa = \frac{ \frac{|\delta r_{j}|}{|r_{j}|}}{\frac{|\delta a_{j}|}{|a_{j}|}}=
+\frac{|a_{i}r_{j}^{i-1}|}{p^{\prime}(x_{j})}
+$$
+
+\paragraph{Part (c):}
+Using exhaustive search, we can find that the most sensitive is $r=15$ specially for $a_{i}$ with $i=15$ which matches the computation in part (a). 

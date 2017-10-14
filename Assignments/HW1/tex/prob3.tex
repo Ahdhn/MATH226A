@@ -1,3 +1,43 @@
 \section*{Problem No.3} \label{sec:prob3}
 
-\paragraph{Part 1:} 
+\paragraph{Part (a):} 
+The following MATLAB code is used to measure the time by incrementing  
+\begin{lstlisting}
+dt1 = 0.1; %time step
+t1 = 0;    %init time 
+Nsteps1 = 864000; % number of steps 
+for j=1:Nsteps1
+    t1=t1+dt1; %time update 
+    t1_exact = j*dt1; %exact time 
+end
+\end{lstlisting}
+Using time step of $dt = 0.1$, the absolute error of the computed time is $5.4\time 10^{-07}$ and the relative error is $6.2^{-12}$.  
+
+\paragraph{Part (b):}
+Changing the time step size to $0.125$ makes the absolute and relative error to be zero. 
+\paragraph{Part (c):}
+The difference between the two results is due to the fact that the operation is not backward stable which can be shown as follows. The main operation we do here is $F(t) = t + dt$. The approximate result we get is $\tilde{F} = fl(t) \oplus dt $, where $fl(t)$ is the floating point representation of $t$ which can be considered as small perturbation to $t$. Thus,
+
+$$\tilde{F} = t(1+\epsilon_{1}) \oplus dt $$
+We can replace the floating point addition ($\oplus$) with small perturbation to the output. Thus, 
+$$\tilde{F} = (t(1+\epsilon_{1}) + dt)(1+\epsilon_{2}) $$
+$$\tilde{F} = t(1+\epsilon_{1})(1+\epsilon_{2}) + \epsilon_{2} + dt) $$
+
+The backward stability requires that $\tilde{F} = F(\tilde{t})$, where $\tilde{t} = t(1+\epsilon_{1})(1+\epsilon_{2}) + \epsilon_{2}$. We need to check if $\tilde{t}$ is within $\epsilon_{machine}$. 
+
+$$
+\frac{|\tilde{t}-t|}{t}= \frac{|t(1+\epsilon_{1})(1+\epsilon_{2})+\epsilon_{2}+t |}{|t|}
+$$
+$$
+\frac{|\tilde{t}-t|}{t}= \epsilon_{1} + \epsilon_{2} + \epsilon_{1}  \epsilon_{2} + \frac{\epsilon_{2}}{|t|}
+$$
+
+
+
+The final term in the final expression suggests that as $t$ gets smaller, we get larger difference between $\tilde{t}$ and $t$. Thus, the operation is not backward stable since 
+
+$$
+\tilde{F}(x) = (t(1+\epsilon_{1})+1 )(1+\epsilon_{2}) = F(\tilde{t})(1+\epsilon_{2})
+$$
+
+which explains why larger $t$ (i.e., $t=0.125$) gives less error. 

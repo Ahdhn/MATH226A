@@ -11,6 +11,7 @@ Nsteps1 = 864000;
 for j=1:Nsteps1
     t1=t1+dt1;
     t1_exact = j*dt1;
+   
 end
 
 

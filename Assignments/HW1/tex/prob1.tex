@@ -1,6 +1,6 @@
 \section*{Problem No.1} \label{sec:prob1}
 
-\paragraph{Part (a)} 
+\paragraph{Part (a):} 
 The following MATLAB code computes the exponential function $f(x)=e^x$ using the truncated series up to $n$ terms. 
 \begin{lstlisting}
 	function approx_exp = ApproxExpFunc(x, n)
@@ -16,9 +16,17 @@ The following MATLAB code computes the exponential function $f(x)=e^x$ using the
 
 With $n=10$ and $x=\pm 5$, the relative error is of order $10^{-11}$. However for $x= 30\pi$, it is $\approx 1$ and for $x=-30\pi$, it is $10^{54}$. Using higher value for $n$ (i.e., $n=40$), it helps decreasing the relative error for $x=\pm 5$ to be $ <10^{-16}$, it does not affect relative error of  $x= 30\pi$ but it increases the relative error for  $x=-30\pi$ to be $10^{71}$. 
  
-The reason behind that is the ????????????????????????????
+The reason behind this is that the problem is ill-conditioned. The condition number can be calculated as
 
-\paragraph{Part (b)} Using remainder theorem for Taylor series, we can expect the error to be $<10^{-13}$ only when $abs(x) < 0.33$. This is derived by solving the following:
+$$
+\kappa(x) = \frac{||J||}{\frac{||f(x)||}{||x||}}
+$$
+$$
+\kappa(x) =\frac{||\sum_{j=0}^{n} \frac{jx^{j-1}}{j!} ||}{\frac{||\sum_{j=0}^{n} \frac{x^{j}}{j!}|| }{||x||} }
+$$
+If we choose to take $|| \cdot||_{\infty}$, then we would end up with $\kappa(x)$ as a function of $x$ which explains why the error gets larger with large values of $x$ for the same $n$ value;
+
+\paragraph{Part (b):} Using remainder theorem for Taylor series, we can expect the error to be $<10^{-13}$ only when $abs(x) < 0.33$. This is derived by solving the following:
 
 $$
 E(x) = \frac{ abs(e^x - R_{n,x})}{e^x} = \frac{e^x - \sum_{j=0}^{n}}{e^x} <10^{13}
