@@ -1,0 +1,43 @@
+\section*{Appendix} \label{sec:app}
+
+In problem 2, since $atan(x) = \frac{i}{2} ln \left( \frac{i+x}{i-x} \right)$, we can express the equation from question 2 as:
+$$
+atan(x+1) - atan(x)  =  \frac{i}{2}  \left( ln\left(\frac{i+x+1}{i-(x+1)}\right) - ln\left(\frac{i+x}{i-x}\right)\right) 
+$$
+We want to prove the following
+\begin{equation}
+\frac{1}{2i}  \left( ln\left(\frac{x+1-i}{x+1+i}\right) - ln\left(\frac{x-i}{x+i}\right)\right)  = \frac{i}{2}  \left( ln\left(\frac{i+x+1}{i-(x+1)}\right) - ln\left(\frac{i+x}{i-x}\right)\right) 
+\end{equation}
+
+
+such that the equation derived from the integration is correct.
+
+\paragraph{Proof:}
+Let 
+$$
+I_{1}(x) = \frac{1}{2i}  \left( ln\left(\frac{x+1-i}{x+1+i}\right) - ln\left(\frac{x-i}{x+i}\right)\right)
+$$
+we get
+$$
+I_{1}(x) = \frac{1}{2i} ln \left(\frac{(x+1-i)(x+i)}{(x+1+i)(x-i)} \right)
+$$
+$$
+I_{1}(x) = \frac{1}{2i} ln \left( \frac{x^2 +x+1+i}{x^2+x+1-i} \right)
+$$
+$$
+I_{1}(x) = \frac{1}{2}  ln \left( \frac{x^2 +x+1-i}{x^2+x+1+i}\right)^i
+$$
+
+We can express the RHS of (1) as 
+$$
+I_{2}(x) = \frac{i}{2}  \left( ln\left(\frac{i+x+1}{i-(x+1)}\right) - ln\left(\frac{i+x}{i-x}\right)\right) 
+$$
+$$
+I_{2}(x) = \frac{i}{2} ln\left(\frac{(i+x+1)(i-x)}{(i-x-1)(i+x)}\right)
+$$
+$$
+I_{2}(x) = \frac{i}{2} ln\left(\frac{x^2+x+1-i}{x^2+x+1+i}\right)
+$$
+$$
+I_{2}(x) = \frac{1}{2} ln\left(\frac{x^2+x+1-i}{x^2+x+1+i}\right)^i
+$$
