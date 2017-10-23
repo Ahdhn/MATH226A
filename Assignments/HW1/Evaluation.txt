@@ -1,0 +1,65 @@
+# HW 1
+
+Group Members:
+
+- Ahmed H Mahmoud
+
+Score: 30
+
+## Question 1
+
+### Part A (/4)
+
+- Good implentation (+2)
+- Results not given (+1)
+
+### Part B (/6)
+
+- Good implentation (+2)
+- Implementation is general (+2)
+- Results not given (+1)
+
+## Question 2
+
+### Part A (/2)
+
+- Accurately identifies error (+2)
+
+### Part B (/5)
+
+- Valid derivation (+5)
+
+### Part C (/3)
+
+- Good data (+2)
+- Good examination (+1)
+
+## Question 3
+
+### Part A (/3)
+
+- Good results (+3)
+
+### Part B (/3)
+
+- Good results (+3)
+
+### Part C (/4)
+
+- Correctly identifies a source of error (+2)
+- Does not identify reason for difference (+0)
+
+## Question 4
+
+### Part A (/3)
+
+- Good results (+2)
+- Good examination (+1)
+
+### Part B (/4)
+
+- No detail shown (+1)
+
+### Part C (/3)
+
+- No reasoning or data shown (+0)
