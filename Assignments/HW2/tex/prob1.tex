@@ -1,0 +1,40 @@
+\section*{Problem No.1} \label{sec:prob1}
+For a strictly column diagonally dominant matrix $A \in  \mathbb{R}^{m\times m}$ , the first step of Gaussian elimination does not require pivoting since -by definition- the entry $a_{11}$ is the largest entry in the first column. We need to prove that the resulting sub-matrix $\in  \mathbb{R}^{m-1\times m-1}$ after the first step preserves the strictly column diagonally dominant matrix structure from which we can directly prove that no row interchanges are needed. 
+
+After the first step of Gaussian elimination, matrix $U$ becomes
+
+\[
+\left| 
+\begin{array}{cc cc cc}
+a_{11} & a_{12} & a_{13}  & \cdots  & \cdots  & \cdots\\
+0      & \frac{-a_{21}}{a_{11}}a_{12} + a_{22} & \frac{-a_{21}}{a_{11}}a_{13} + a_{23}  & \cdots  & \cdots  & \cdots\\
+0      & \frac{-a_{31}}{a_{11}}a_{12} + a_{32} & \frac{-a_{31}}{a_{11}}a_{13} + a_{33}  & \cdots  & \cdots  & \cdots\\
+0      & \cdots  & \cdots   & \cdots  & \cdots  & \cdots\\
+\end{array} 
+\right|
+\] 
+In order to preserve the strictly column diagonally dominant matrix structure (at least in the first column) for the sub-matrix created by removing the first row and column from the above matrix, we need to prove the following:
+\[
+|a_{22} - a_{12}\frac{a_{21}}{a_{11}}| > \sum_{i=3}^{m}|a_{i2} -a_{i1}\frac{a_{12}}{a_{11}}|
+\]
+\begin{equation}
+|a_{22}{a_{11}} - a_{12}a_{21}| > \sum_{i=3}^{m}|a_{i2}a_{11} -a_{i1}a_{12}|
+\label{pro}
+\end{equation}
+We can use the fact that
+\begin{equation}
+\sum_{i=3}^{m}|a_{i2}a_{11} -a_{i1}a_{12}| \leq |a_{11}|\sum_{i=3}^{m}|a_{i2}| + |a_{12}|\sum_{i=3}^{m}|a_{i1}|
+\label{eq1}
+\end{equation}
+From the  strictly column diagonally dominant matrix definition, we have $\sum_{i=3}^{m}|a_{i2}| < |a_{22}|-|a_{12}|$ and  $\sum_{i=3}^{m}|a_{i1}| < |a_{11}|-|a_{21}|$. Substitute this in Equation \ref{eq1}, we get
+
+\[
+\sum_{i=3}^{m}|a_{i2}a_{11} -a_{i1}a_{12}| <  |a_{11}|(|a_{22}|-|a_{12}|) + |a_{12}|(|a_{11}|-|a_{21}|)\\
+\]
+\[
+\sum_{i=3}^{m}|a_{i2}a_{11} -a_{i1}a_{12}| <     |a_{11}||a_{22}| - |a_{12}||a_{21}|\\
+\]
+\[
+\sum_{i=3}^{m}|a_{i2}a_{11} -a_{i1}a_{12}| \leq  |a_{11} a_{22} - a_{12} a_{21}|
+\]
+which is what we want to prove in Equation \ref{pro}.

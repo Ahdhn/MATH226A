@@ -1,0 +1,29 @@
+\section*{Problem No.4} \label{sec:prob4}
+\paragraph{Part (A):} We start the proof by proving the inequalities on vector norms. For $x \in \mathbb{C}^{m}$, 
+\[
+||x||_{2}^{2} = \sum_{i=1}^{m} |x_{i}|^{2} 
+\]
+and 
+\[
+||x||_{\infty}^{2} = (max_{1\leq i \leq m} |x_{i}|^{2})^{2}
+\]
+In order to make sure that $||x||_{2}^{2}$ never exceeds $||x||_{\infty}^{2}$ we can multiply $||x||_{\infty}^{2}$ by the number elements $m$; since the square the maximum of the vector elements $m$ times is certainly greater than sum square of all elements. Thus, we have $||x||_{2} \leq \sqrt{m}||x||_{\infty}$. Also we have
+$ ||x||_{\infty} \leq ||x||_{2}$ since the greatest element $x_{i}$ is already included in $||x||_{2}$ summed over other positive values (the squared of absolute other elements).
+
+For $A \in \mathbb{C}^{m \times n}$ and from the definition of the matrix norm, we have 
+\[
+||A||_{\infty} = max_{x\neq 0}\frac{||Ax||_{\infty}}{||x||_{\infty}}\leq
+ (\sqrt{n}) max_{x\neq 0}\frac{||Ax||_{2}}{||x||_{2}} = \sqrt{n} ||A||_{2}
+\]
+The inequality is obtain since we take $||x||_{n}=1$. Similarly we can obtain $||A||_{2}\leq \sqrt{m}|| A||_{\infty}$. Thus,
+\[
+ \frac{1}{\sqrt{n}}|| A||_{\infty} \leq ||A||_{2} \leq \sqrt{m}|| A||_{\infty}
+\]
+
+\paragraph{Part (B):} The equality can be obtain if we have a matrix filled by ones.
+
+\paragraph{ Part (C):} The condition number of square matrix $A$ is $\kappa(A) = ||A||||A^{-1}||$. Given the bounds above
+
+\[
+\frac{\kappa(A)_{2}}{\kappa(A)_{\infty}} = \frac{||A||_{2}||A^{-1}||_{2}}{||A||_{\infty}||A^{-1}||_{\infty}} = n
+\]

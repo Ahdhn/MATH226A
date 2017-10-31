@@ -1,0 +1,94 @@
+\section*{Problem No.5} \label{sec:prob5}
+
+\paragraph{Part (A):} For the factorization of $A = LU$, the entries of $L$ and $U$ are 
+\[
+A =
+\left| 
+\begin{array}{cc cc c}
+b_{1} &  c_{1}  &  0     &  0     &   0      \\
+a_{2} &  b_{2}  &  c_{2} &  0     &   0      \\
+ 0    &  \ddots & \ddots & \ddots &   0      \\
+ 0    &  0      & a_{n-1}& b_{n-1}&   c_{n-1}\\ 
+ 0    &  0      & 0      & a_{n}  &   b_{n}  \\ 
+\end{array} 
+\right| = \quad 
+\underbrace{
+\left| 
+\begin{array}{cc cc c}
+1     &  0     &  0     &  0         &   0 \\
+l_{2} &  1     &  0     &  0         &   0 \\
+ 0    &  l_{3} & 1      &  0         &   0 \\
+ 0    &  0     & \ddots & \ddots &   0 \\ 
+ 0    &  0     & 0      & l_{n}  &   1 \\ 
+\end{array} 
+\right|}_\text{} \quad
+\underbrace{
+\left| 
+\begin{array}{cc cc c}
+m_{1} & c_{1}  &  0      &  0       &   0      \\
+0     & m_{2}  &  c_{2}  &  0       &   0      \\
+0     & 0      &  \ddots &  \ddots  &   0      \\
+0     & 0      &  0      &  m_{n-1} &  c_{n-1} \\
+0     & 0      &  0      &  0       &  m_{n-1} \\
+\end{array} 
+\right|}_\text{}
+\] 
+$\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad L \qquad \qquad \qquad \qquad \qquad \qquad  U$
+
+Thus, the entries of $L$ and $U$ are
+\[
+m_{1} = b_{1}\\
+\]
+\[
+l_{i} = a_{i}/m_{i-1}\\
+\]
+\[
+m_{i} = b_{i} - l_{i}c_{i-1}, \quad i=2, \cdots, n
+\]
+
+\paragraph{Part (B):}
+We can use Sherman-Morrison formula in order to solve the modified system of equation i.e., cyclic tri-diagonal system ~\cite{press1987numerical} such that the system is treated as tri-diagonal system plus a correction. We can described the changes in $A$ as 
+$$A \rightarrow (A + u \otimes v) $$
+
+wh	ere $u \otimes v$ is a matrix whose $i$,$j$th element is the product of the $j$th component of $u$ and $j$th component of $v$ and 
+\[
+u = \left| 
+\begin{array}{c}
+\gamma \\
+0\\
+\vdots\\
+0\\
+c_{n}
+\end{array} 
+\right| \quad \quad
+v = \left| 
+\begin{array}{c}
+1 \\
+0\\
+\vdots\\
+0\\
+a_{1}/\gamma
+\end{array} 
+\right|  
+\]
+and $\gamma$ is arbitrary number. From that we can utilize Sherman-Morrison formula and solve the system using the original tri-diagonal solver in two steps; first solver $A^{\prime}\cdot y = b$ for the vector $y$ and then solve $A^{\prime}\cdot z = u$ for the vector $z$ where $A^{\prime}$ is the tri-diagonal part of $A$ with following modification $b_{1}^{\prime}=b_{1}-\gamma$, $b_{n}^{\prime}= b_{n}-c_{n}*a_{1}/\gamma$. The solution for the original system becomes 
+\[
+x = y - \left( \frac{v \cdot y}{1+\left( v\cdot z \right)} \right) z 
+\]
+The following code applies this method where \emph{myTridiagonalSolver} is the original given tridiagonal solver.
+\begin{lstlisting}
+	alpha = c(n); %Lower left corner
+	beta = a(1); %Right upper corner
+	bb = b; %Modified diagonal vector
+	gamma = -b(1);
+	bb(1) = b(1) - gamma;
+	bb(n) = b(n) - alpha*beta/gamma;
+	x = myTridiagonalSolver(n,bb,a,c,f); %solve  A.x = f for u 
+	u(1) = gamma;
+	u(n) = alpha;
+	z = myTridiagonalSolver(n,bb,a,c,u); %solve A.z= x for z
+	fact = (x(1) + beta *x(n)/gamma)/(1.0 +z(1) + beta*z(n)/gamma);
+	for i=1:n
+   		 x(i) = x(i) - fact*z(i);
+	end
+\end{lstlisting}
