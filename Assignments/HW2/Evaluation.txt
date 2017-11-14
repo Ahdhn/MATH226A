@@ -1,0 +1,58 @@
+# Homework 2
+
+Group Members:
+
+- Ahmed H. Mahmoud
+
+---
+
+Score: 28
+
+## Question 1 (/8)
+
+- Valid proof (+8)
+
+## Question 2 (/8)
+
+- Valid code (+3)
+- Data/presentation is questionable (+0) (?)
+- Sparse examination (+1)
+
+## Question 3
+
+### Part A (/3)
+
+- No proof this is the maximum (+1) (?)
+
+### Part B (/3)
+
+- Valid data, good presentation (+3)
+
+### Part C (/2)
+
+- Reasonable value (+2)
+
+## Question 4
+
+### Part A (/3)
+
+- Questionable demonstration of bounds (+2) (?)
+
+### Part B (/2)
+
+- Double check work, likely not valid (+0) (?)
+
+### Part C (/3)
+
+- No bounds (+0)
+- No explanation on difficulty (+0)
+
+## Question 5
+
+### Part A (/4)
+
+- Valid statement, values (+4)
+
+### Part B (/4)
+
+- Valid modification (+4)

@@ -1,0 +1,37 @@
+\section*{Problem No.1} \label{sec:prob1}
+
+An iteration of Newton's method is 
+\[
+x_{k+1} = x_{k} - \frac{f(x_{k})}{f^{\prime}(x_{k})} 
+\]
+
+We can subtract $x_{*}$ from both sides and rearrange. We then get
+\begin{equation}
+\frac{x_{k+1} -x_{*}}{x_{k} -x_{*}} = 1 - \frac{f(x_{k})}{f^{\prime}(x_{k}) (x_{k}-x_{*})} 
+\end{equation}
+
+
+We can use Taylor expansion to express $f(x_{k})$ and $f^{\prime}(x_{k})$ in terms of $f(x_{*})$ and higher order terms as follows
+\[
+f(x) = f(x_{*}) + f^{\prime}(x_{*})(x-x_{*}) + \frac{f^{\prime \prime}(x_{*})}{2}(x-x_{*})^{2}+HOT 
+\] 
+where $HOT$ stands for \emph{higher order terms}. Since $f(x)=f^{\prime}(x)=0$, we get
+\begin{equation}
+f(x) = \frac{f^{\prime \prime}(x_{*})}{2}(x-x_{*})^{2}+HOT
+\end{equation}
+We can differentiate (2) once about $x$. We get
+\begin{equation}
+f^{\prime}(x) = f^{\prime \prime}(x_{*})(x-x_{*})+HOT
+\end{equation}
+
+We can then evaluate (2) and (3) at $x_{k}$ and substitute in (1) to get
+\[
+\frac{x_{k+1} -x_{*}}{x_{k} -x_{*}} = 1 - \frac{  \frac{f^{\prime \prime}(x_{*})}{2}(x_{k}-x_{*})^{2}+HOT }{ (f^{\prime \prime}(x_{*})(x_{k}-x_{*})+HOT) (x_{k}-x_{*})}
+\]
+\[
+\frac{x_{k+1} -x_{*}}{x_{k} -x_{*}} = 1 - \frac{1}{2} \frac{1}{1 + HOT*(f^{\prime \prime}(x_{*})(x_{k}-x_{*}))^{-1}}
+\]
+Taking the limits as $k\rightarrow \infty$ in the last expression, the higher order terms will go to zero and we get 
+$$
+\lim_{k \to \infty} \frac{x_{k+1} -x_{*}}{x_{k} -x_{*}} = \lim_{k \to \infty} \frac{e_{k+1}}{e_{k}} = \frac{1}{2} \qquad \qquad \qquad \blacksquare
+$$
