@@ -1,0 +1,123 @@
+%solving a system of equations using Newton's method with the option to
+%include line search. 
+clc;
+clear;
+close all;
+disp('Math 226A - HW3 - Problem #2:');
+
+%%%%%%%%%%%%%%%%%%% Part a)
+global x11s x12s j1s f11s f12s; 
+syms x11s x12s j1s f11s f12s;
+f11s = (5-2*x11s)/(2*x12s-3);%function in symbolic 
+f12s = (5-2*x12s)/(2*x11s-3);%to get the jacobian 
+j1s = [jacobian(f11s,[x11s, x12s]);jacobian(f12s,[x11s, x12s])];
+j1s = inv(j1s);%the inverse
+disp('Results for part a) x0=(1 1), no Line Search');
+Newton(@Func1, @myJac1, [1 1]', 10 ,false)  %initial guess (1,1), no LS
+
+disp('Results for part a) x0=(1 1), with Line Search');
+Newton(@Func1, @myJac1, [1 1]', 10 ,true)   %initial guess (1,1), LS
+
+disp('Results for part a) x0=(3 3), no Line Search');
+Newton(@Func1, @myJac1, [3 3]', 10 ,false)  %initial guess (3,3), no LS
+
+disp('Results for part a) x0=(3 3), with Line Search');
+Newton(@Func1, @myJac1, [3 3]', 10 ,true)   %initial guess (3,3), LS
+
+disp('Results for part a) x0=(10 10), no Line Search');
+Newton(@Func1, @myJac1, [10 10]', 10 ,false)%initial guess (10,10), no LS
+
+disp('Results for part a) x0=(10 10), with Line Search');
+Newton(@Func1, @myJac1, [10 10]', 10 ,true) %initial guess (10,10), LS
+
+%%%%%%%%%%%%%%%%%%% Part b)
+global x21s j2s f2s; 
+syms x21s j2s f2s; 
+f2s = (x21s^2)/(1+x21s^2);%function in symbolic 
+j2s = jacobian(f2s,x21s);
+j2s= inv(j2s);
+
+disp('Results for part b) x0=1, no Line Search');
+Newton(@Func2, @myJac2, 1, 10, false)%initial guess (1), no LS
+
+disp('Results for part b) x0=1, with Line Search');
+Newton(@Func2, @myJac2, 1, 10, true) %initial guess (1),  LS
+
+disp('Results for part b) x0=0, no Line Search');
+Newton(@Func2, @myJac2, 0, 10, false)%initial guess (0), no LS
+
+disp('Results for part b) x0=0, with Line Search');
+Newton(@Func2, @myJac2, 0, 10, true) %initial guess (0), LS
+
+%%%%%%%%%%%%%%%%%%% Part c)
+global x31s x32s j3s f31s f32s; 
+syms x31s x32s j3s f31s f32s; 
+f31s = x31s*x32s + x31s^3 +4;
+f32s = x31s*x32s^2 + x32s +6;
+j3s = [jacobian(f31s,[x31s, x32s]);jacobian(f32s,[x31s, x32s])];
+j3s = inv(j3s);
+
+disp('Results for part c) x0=(-1, -1), no Line Search');
+Newton(@Func3, @myJac3, [-1 -1]', 10 ,false)%initial guess (-1,-1), no LS
+
+disp('Results for part c) x0=(-1, -1), with Line Search');
+Newton(@Func3, @myJac3, [-1 -1]', 10 ,true) %initial guess (-1,-1), LS
+
+disp('Results for part c) x0=(1, 1), no Line Search');
+Newton(@Func3, @myJac3, [1 1]', 10 ,false)  %initial guess (1,1), no LS
+
+disp('Results for part c) x0=(1, 1), with Line Search');
+Newton(@Func3, @myJac3, [1 1]', 10 ,true)   %initial guess (1,1), LS
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%Jacobians & Functions%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%% Part a)
+function j = myJac1(x)
+    global x11s x12s j1s
+    x11s = x(1);
+    x12s = x(2);   
+    norm(double(subs(j1s)));%get an idea of the matrix singulairty
+    j = double(subs(j1s));
+end
+function val = Func1(x)
+    global x11s x12s f11s f12s
+    %evluate the function on x
+    %x is a vector
+    x11s = x(1);
+    x12s = x(2);
+    val(1) = subs(f11s);
+    val(2) = subs(f12s);
+    val = double(val)';
+end
+%%%%%%%%%%%%%%%%%%% Part b)
+function j = myJac2(x)
+    global x21s j2s
+    x21s = x;
+    j = double(subs(j2s));
+end
+function val = Func2(x)
+    global x21s f2s   
+    x21s = x;    
+    val = double(subs(f2s));
+end
+%%%%%%%%%%%%%%%%%%% Part c)
+function j = myJac3(x)
+    global x31s x32s j3s
+    x31s = x(1);
+    x32s = x(2);
+    j = subs(j3s);
+    j = double(j);
+end
+function val = Func3(x)
+    global x31s x32s f31s f32s
+    %evluate the function on x
+    %x is a vector
+    x31s = x(1);
+    x32s = x(2);
+    val(1) = subs(f31s);
+    val(2) = subs(f32s);
+    val = double(val');
+end
+
+
