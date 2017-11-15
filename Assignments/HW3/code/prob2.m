@@ -12,23 +12,24 @@ f11s = (5-2*x11s)/(2*x12s-3);%function in symbolic
 f12s = (5-2*x12s)/(2*x11s-3);%to get the jacobian 
 j1s = [jacobian(f11s,[x11s, x12s]);jacobian(f12s,[x11s, x12s])];
 j1s = inv(j1s);%the inverse
+
 disp('Results for part a) x0=(1 1), no Line Search');
-Newton(@Func1, @myJac1, [1 1]', 10 ,false)  %initial guess (1,1), no LS
+[normF11, X11] = Newton(@Func1, @myJac1, [1 1]', 10 ,false);  %initial guess (1,1), no LS
 
 disp('Results for part a) x0=(1 1), with Line Search');
-Newton(@Func1, @myJac1, [1 1]', 10 ,true)   %initial guess (1,1), LS
+[normF11LS, X11LS] = Newton(@Func1, @myJac1, [1 1]', 10 ,true);   %initial guess (1,1), LS
 
 disp('Results for part a) x0=(3 3), no Line Search');
-Newton(@Func1, @myJac1, [3 3]', 10 ,false)  %initial guess (3,3), no LS
+[normF12, X12] = Newton(@Func1, @myJac1, [3 3]', 10 ,false);  %initial guess (3,3), no LS
 
 disp('Results for part a) x0=(3 3), with Line Search');
-Newton(@Func1, @myJac1, [3 3]', 10 ,true)   %initial guess (3,3), LS
+[normF12LS, X12LS] = Newton(@Func1, @myJac1, [3 3]', 10 ,true);   %initial guess (3,3), LS
 
 disp('Results for part a) x0=(10 10), no Line Search');
-Newton(@Func1, @myJac1, [10 10]', 10 ,false)%initial guess (10,10), no LS
+[normF13, X13] = Newton(@Func1, @myJac1, [10 10]', 10 ,false);%initial guess (10,10), no LS
 
 disp('Results for part a) x0=(10 10), with Line Search');
-Newton(@Func1, @myJac1, [10 10]', 10 ,true) %initial guess (10,10), LS
+[normF13LS, X13LS] = Newton(@Func1, @myJac1, [10 10]', 10 ,true); %initial guess (10,10), LS
 
 %%%%%%%%%%%%%%%%%%% Part b)
 global x21s j2s f2s; 
@@ -38,16 +39,16 @@ j2s = jacobian(f2s,x21s);
 j2s= inv(j2s);
 
 disp('Results for part b) x0=1, no Line Search');
-Newton(@Func2, @myJac2, 1, 10, false)%initial guess (1), no LS
+[normF21, X21] = Newton(@Func2, @myJac2, 1, 10, false); %initial guess (1), no LS
 
 disp('Results for part b) x0=1, with Line Search');
-Newton(@Func2, @myJac2, 1, 10, true) %initial guess (1),  LS
+[normF21LS, X21LS] = Newton(@Func2, @myJac2, 1, 10, true); %initial guess (1),  LS
 
 disp('Results for part b) x0=0, no Line Search');
-Newton(@Func2, @myJac2, 0, 10, false)%initial guess (0), no LS
+[normF22, X22] = Newton(@Func2, @myJac2, 0, 10, false);%initial guess (0), no LS
 
 disp('Results for part b) x0=0, with Line Search');
-Newton(@Func2, @myJac2, 0, 10, true) %initial guess (0), LS
+[normF22LS, X22LS] = Newton(@Func2, @myJac2, 0, 10, true); %initial guess (0), LS
 
 %%%%%%%%%%%%%%%%%%% Part c)
 global x31s x32s j3s f31s f32s; 
@@ -58,16 +59,16 @@ j3s = [jacobian(f31s,[x31s, x32s]);jacobian(f32s,[x31s, x32s])];
 j3s = inv(j3s);
 
 disp('Results for part c) x0=(-1, -1), no Line Search');
-Newton(@Func3, @myJac3, [-1 -1]', 10 ,false)%initial guess (-1,-1), no LS
+[normF31, X31] = Newton(@Func3, @myJac3, [-1 -1]', 10 ,false);%initial guess (-1,-1), no LS
 
 disp('Results for part c) x0=(-1, -1), with Line Search');
-Newton(@Func3, @myJac3, [-1 -1]', 10 ,true) %initial guess (-1,-1), LS
+[normF31LS, X31LS] = Newton(@Func3, @myJac3, [-1 -1]', 10 ,true); %initial guess (-1,-1), LS
 
 disp('Results for part c) x0=(1, 1), no Line Search');
-Newton(@Func3, @myJac3, [1 1]', 10 ,false)  %initial guess (1,1), no LS
+[normF32, X32] = Newton(@Func3, @myJac3, [1 1]', 10 ,false);  %initial guess (1,1), no LS
 
 disp('Results for part c) x0=(1, 1), with Line Search');
-Newton(@Func3, @myJac3, [1 1]', 10 ,true)   %initial guess (1,1), LS
+[normF32LS, X32LS] = Newton(@Func3, @myJac3, [1 1]', 10 ,true);   %initial guess (1,1), LS
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%Jacobians & Functions%%%%%%%%%%%%%%%%

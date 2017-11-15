@@ -1,0 +1,17 @@
+\section*{Problem No.3} \label{sec:prob3}
+Given the PDE along with boundary conditions 
+\[
+\epsilon u_{xx}-exp(-|u|)u+g =0,\\
+u(0)=u(1)=0
+\]
+We can approximate the second derivative using the 3-point second-order discritzation 
+\[
+u_{xx}(x_{j}) \approx \frac{u_{j-1}-2u_{j}+u_{j+1}}{\Delta x^{2}}
+\]
+where $x_{j}=j\Delta x$ for $j=0 \cdots N+1$ and $\Delta x = \frac{1}{N+1}$ and thus $u_{j}\approx u(x_{j})$. The PDE then becomes 
+\[
+\frac{u_{j-1}-2u_{j}+u_{j+1}}{\Delta x^{2}} - exp(-|u_{j}|)u_{j}+g=0
+\]
+\[
+\frac{ u_{j-1}}{\Delta x^{2}}-\frac{2u_{j}}{\Delta x^{2}} + \frac{ u_{j+1}}{\Delta x^{2}} -exp(-|u_{j}|)u_{j}+g=0
+\]
