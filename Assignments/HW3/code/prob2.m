@@ -31,6 +31,17 @@ disp('Results for part a) x0=(10 10), no Line Search');
 disp('Results for part a) x0=(10 10), with Line Search');
 [normF13LS, X13LS] = Newton(@Func1, @myJac1, [10 10]', 10 ,true); %initial guess (10,10), LS
 
+plotNorm(1,0,@Func1);
+plot(X11(:,2),X11(:,1), 'c*');
+plot(X11LS(:,2),X11LS(:,1), 'yo');
+
+plotNorm(2,0,@Func1);
+plot(X12(:,2),X12(:,1), 'c*');
+plot(X12LS(:,2),X12LS(:,1), 'yo');
+
+plotNorm(3,0,@Func1);
+plot(X13(:,2),X13(:,1), 'c*');
+plot(X13LS(:,2),X13LS(:,1), 'yo');
 %%%%%%%%%%%%%%%%%%% Part b)
 global x21s j2s f2s; 
 syms x21s j2s f2s; 
@@ -45,10 +56,10 @@ disp('Results for part b) x0=1, with Line Search');
 [normF21LS, X21LS] = Newton(@Func2, @myJac2, 1, 10, true); %initial guess (1),  LS
 
 disp('Results for part b) x0=0, no Line Search');
-[normF22, X22] = Newton(@Func2, @myJac2, 0, 10, false);%initial guess (0), no LS
+[normF22, X22] = Newton(@Func2, @myJac2, 10, 10, false);%initial guess (0), no LS
 
 disp('Results for part b) x0=0, with Line Search');
-[normF22LS, X22LS] = Newton(@Func2, @myJac2, 0, 10, true); %initial guess (0), LS
+[normF22LS, X22LS] = Newton(@Func2, @myJac2, 10, 10, true); %initial guess (0), LS
 
 %%%%%%%%%%%%%%%%%%% Part c)
 global x31s x32s j3s f31s f32s; 
@@ -57,7 +68,7 @@ f31s = x31s*x32s + x31s^3 +4;
 f32s = x31s*x32s^2 + x32s +6;
 j3s = [jacobian(f31s,[x31s, x32s]);jacobian(f32s,[x31s, x32s])];
 j3s = inv(j3s);
-
+ 
 disp('Results for part c) x0=(-1, -1), no Line Search');
 [normF31, X31] = Newton(@Func3, @myJac3, [-1 -1]', 10 ,false);%initial guess (-1,-1), no LS
 
@@ -65,10 +76,40 @@ disp('Results for part c) x0=(-1, -1), with Line Search');
 [normF31LS, X31LS] = Newton(@Func3, @myJac3, [-1 -1]', 10 ,true); %initial guess (-1,-1), LS
 
 disp('Results for part c) x0=(1, 1), no Line Search');
-[normF32, X32] = Newton(@Func3, @myJac3, [1 1]', 10 ,false);  %initial guess (1,1), no LS
+[normF32, X32] = Newton(@Func3, @myJac3, [1 1]', 20 ,false);  %initial guess (1,1), no LS
 
 disp('Results for part c) x0=(1, 1), with Line Search');
-[normF32LS, X32LS] = Newton(@Func3, @myJac3, [1 1]', 10 ,true);   %initial guess (1,1), LS
+[normF32LS, X32LS] = Newton(@Func3, @myJac3, [1 1]', 20 ,true);   %initial guess (1,1), LS
+
+plotNorm(4,0,@Func3);
+plot(X31(:,2),X31(:,1), 'c-*');
+plot(X31LS(:,2),X31LS(:,1), 'r:o');
+
+plotNorm(5,0,@Func3);
+plot(X32(:,2),X32(:,1), 'c-*');
+plot(X32LS(:,2),X32LS(:,1), 'r:o');
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%Plot Contours %%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function plotNorm(fignum, X, func)
+    v=[.25,.5:2:40];
+    xr=-5:0.2:5;
+    n=length(xr);
+    z=zeros(n,n);
+    for i=1:n
+        for j=1:n        
+            z(i,j)=norm(func([xr(i),xr(j)]));
+        end
+    end
+    figure(fignum);
+    contourf(xr,xr,z,v);
+    ylim([-5 5]);
+    xlim([-5 5]);
+    hold 
+    
+   % plot(X(:,1),X(:,2),'-*');
+end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%Jacobians & Functions%%%%%%%%%%%%%%%%
@@ -77,8 +118,7 @@ disp('Results for part c) x0=(1, 1), with Line Search');
 function j = myJac1(x)
     global x11s x12s j1s
     x11s = x(1);
-    x12s = x(2);   
-    norm(double(subs(j1s)));%get an idea of the matrix singulairty
+    x12s = x(2);       
     j = double(subs(j1s));
 end
 function val = Func1(x)
@@ -94,7 +134,7 @@ end
 %%%%%%%%%%%%%%%%%%% Part b)
 function j = myJac2(x)
     global x21s j2s
-    x21s = x;
+    x21s = x;    
     j = double(subs(j2s));
 end
 function val = Func2(x)
