@@ -24,16 +24,56 @@ end
 
 [normF1, myU1] = Newton(@Func, @myJac, init1, 1000 ,true); 
 figure 
-plot(myU1(end,:));
+plot([0,myU1(end,:),0]);
 xlabel('x'); ylabel('u');
 title('Solution with first initial guess');
 
 [normF2, myU2] = Newton(@Func, @myJac, init2, 1000 ,true); 
 figure 
-plot(myU2(end,:));
+plot([0,myU2(end,:),0]);
 xlabel('x'); ylabel('u');
 title('Solution with second initial guess');
 
+
+%the third initial guess if of the form alpha*init1 + (1-alpha)*init2
+%and we are gonna do a line search between two values if alpha [0,1]
+%where alpha =0 gives the the solution of init2 
+%alpha =1 gives the solution from init1 
+
+%we know we are close to either solutions by comparing the norms 
+normU1 = norm(myU1(end,:));
+normU2 = norm(myU2(end,:));
+alphaUp =1;
+alphaDown = 0;
+ newalpha=alphaUp;
+while true 
+    %%%% Do binary search
+    %get new alpha 
+    newalpha = (alphaUp + alphaDown)/2;
+   
+    %get the solution from this new alpha
+    init3 = newalpha.*init1 + (1-newalpha).*init2;
+    %get solution from this initial guess 
+    [normF3, myU3] = Newton(@Func, @myJac, init3, 1000 ,true);    
+    %get the norm of this solution to compare against 
+    normU3 = norm(myU3(end,:));
+    
+    if abs(normU3 -normU1) < 1e-5
+        %close to the solution of U1 -> change alphaUp
+        alphaUp = newalpha;        
+    elseif abs(normU3-normU2) < 1e-5
+        %close to the solution of U2 -> change alphaDown
+        alphaDown = newalpha;                
+    else
+        %get a new solution -> quit
+        break;
+    end    
+end
+
+figure
+plot([0,myU3(end,:),0]);
+xlabel('x'); ylabel('u');
+title('Solution with third initial guess');
 
 function val = Func(U)
     %evaluate the discretized problem at U

@@ -1,0 +1,104 @@
+\section*{Problem No.4} \label{sec:prob4}
+
+\paragraph{Part a)} The following two pieces of code implement the classical Gram Shmidt (GS) and modified Gram Shmidt (MGS) to output the QR factorization of an input matrix A.
+
+\begin{lstlisting}
+function [Q, R] = GS(A)
+    %classical gram schmidt factorization on matrix A    
+    [nRows, nCols] = size(A);
+    Q = zeros(nRows, nCols);
+    Q(:,1) = A(:,1)/norm(A(:,1));
+    for k=2:nCols
+       Q(:,k) = A(:,k);
+       for n=1:k-1
+           Q(:,k) = Q(:,k) - ((A(:,k)'*Q(:,n))/(Q(:,n)'*Q(:,n)))*Q(:,n);
+       end
+       Q(:,k) = Q(:,k)/norm(Q(:,k));
+    end
+    R = transpose(Q)*A;
+end
+\end{lstlisting}
+
+
+\begin{lstlisting}
+function [Q, R] = MGS(A)
+    %modified Gram Schmidt factorization on matrix A
+    [nRows, nCols] = size(A);
+    Q = zeros(nRows, nCols);
+    
+    Q(:,1) = A(:,1)/norm(A(:,1));
+    for k = 2:nCols
+      Q(:,k) = A(:,k);
+      for n = 1:k-1
+        Q(:,k) = Q(:,k) - ((Q(:,k)'*Q(:,n))/(Q(:,n)'*Q(:,n)))*Q(:,n);
+      end
+      Q(:,k) = Q(:,k)/norm(Q(:,k));
+    end    
+    R = transpose(Q)*A;
+end
+\end{lstlisting}
+
+\paragraph{Part b)} We first constructed the system of equations for the least square problem. The following code construct the right hand side $b$ and the normal matrix $A$ for the polynomial of degree \emph{poly\_deg} of the function $cos(4x)$ evaluated at number of points equal to \emph{num\_points}.
+
+\begin{lstlisting}
+%computes all the powers once
+p = zeros(2*poly_deg +1,1);
+for k=1:num_points
+    for n=1:2*poly_deg +1
+        p(n) = p(n) + sams(k)^(n-1);
+    end
+end
+%construct the normal matrix
+A = zeros(poly_deg +1,poly_deg+1);
+for k = 1:poly_deg +1
+    for n = 1:poly_deg +1
+        A(k,n) = p(k+n-1);
+    end
+end
+%construct the right head side b
+b = zeros(poly_deg+1,1);
+for k=1:num_points
+    for n = 1:poly_deg +1
+        b(n) = b(n) + func(k)*sams(k)^(n-1);
+    end
+end
+\end{lstlisting}
+We then solved the system of equation using classic Gram Schmidt, modified Gram Schmidt, Householder reflector and matlab least square solver. 
+The following table shows the 2-norm of the residual. 
+\begin{figure}[H]
+ \centering
+\begin{tabular}{ |c || c|c || c|c |}
+ \hline
+  &GS & MGS & Householder & MATLAB LS \\ 
+  	
+  \hhline{|=|=|=|=|=|}                           
+ 2-norm &19.268689 &5.115172	&4.9641880 & 7.99915e-09	 \\                                                                  
+ \hline
+\end{tabular} 
+  \caption{2-norm of the residual for the least square problem using classic Gram Schmidt (GS), modified Gram Schmidt (MGS), Householder reflector and matlab least square solver.}
+   \label{tab:part_b}
+\end{figure} 
+
+We used the matlab solver results as ground truth and compares it against the results of the three other methods to estimate the error in the coefficient. The 2-norm of the error is shown in the following table. 
+
+\begin{figure}[H]
+ \centering
+\begin{tabular}{ |c || c|c || c |}
+ \hline
+  &GS & MGS & Householder  \\ 
+  	
+  \hhline{|=|=|=|=|}                           
+Error 2-norm & 32.3860 & 1.420475	& 0.799824	 \\                                                                  
+ \hline
+\end{tabular} 
+  \caption{2-norm of error in the coefficients using the matlab solver results are the ground truth.}
+   \label{tab:part_c}
+\end{figure} 
+
+As expected the classical GS is the worst in both the residual and thus the error. This is due to the poorly-conditioned matrix $Q$ which has condition number for this problem of $1.45995e+11$. Modified GS improves the condition number of $Q$ to be $1.185329$ which results in a relatively better results. The Householder factorization gives $Q$ with condition number of 1 which is close to what modified GS produces which explains why the results are quite close from this two methods in terms of 2-norm residual and error. 
+
+
+
+
+
+
