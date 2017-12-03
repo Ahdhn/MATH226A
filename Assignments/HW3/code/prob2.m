@@ -14,13 +14,13 @@ j1s = [jacobian(f11s,[x11s, x12s]);jacobian(f12s,[x11s, x12s])];
 j1s = inv(j1s);%the inverse
 
 disp('Results for part a) x0=(1 1), no Line Search');
-[normF11, X11] = Newton(@Func1, @myJac1, [1 1]', 10 ,false);  %initial guess (1,1), no LS
+%[normF11, X11] = Newton(@Func1, @myJac1, [1 1]', 10 ,false);  %initial guess (1,1), no LS
 
 disp('Results for part a) x0=(1 1), with Line Search');
-[normF11LS, X11LS] = Newton(@Func1, @myJac1, [1 1]', 10 ,true);   %initial guess (1,1), LS
+%[normF11LS, X11LS] = Newton(@Func1, @myJac1, [1 1]', 10 ,true);   %initial guess (1,1), LS
 
 disp('Results for part a) x0=(3 3), no Line Search');
-[normF12, X12] = Newton(@Func1, @myJac1, [3 3]', 10 ,false);  %initial guess (3,3), no LS
+%[normF12, X12] = Newton(@Func1, @myJac1, [3 3]', 10 ,false);  %initial guess (3,3), no LS
 
 disp('Results for part a) x0=(3 3), with Line Search');
 [normF12LS, X12LS] = Newton(@Func1, @myJac1, [3 3]', 10 ,true);   %initial guess (3,3), LS
@@ -31,17 +31,17 @@ disp('Results for part a) x0=(10 10), no Line Search');
 disp('Results for part a) x0=(10 10), with Line Search');
 [normF13LS, X13LS] = Newton(@Func1, @myJac1, [10 10]', 10 ,true); %initial guess (10,10), LS
 
-plotNorm(1,0,@Func1);
-plot(X11(:,2),X11(:,1), 'c*');
-plot(X11LS(:,2),X11LS(:,1), 'yo');
+%plotNorm(1,0,@Func1);
+%plot(X11(:,2),X11(:,1), 'c*');
+%plot(X11LS(:,2),X11LS(:,1), 'yo');
 
-plotNorm(2,0,@Func1);
-plot(X12(:,2),X12(:,1), 'c*');
-plot(X12LS(:,2),X12LS(:,1), 'yo');
+%plotNorm(2,0,@Func1);
+%plot(X12(:,2),X12(:,1), 'c*');
+%plot(X12LS(:,2),X12LS(:,1), 'yo');
 
-plotNorm(3,0,@Func1);
-plot(X13(:,2),X13(:,1), 'c*');
-plot(X13LS(:,2),X13LS(:,1), 'yo');
+%plotNorm(3,0,@Func1);
+%plot(X13(:,2),X13(:,1), 'c*');
+%plot(X13LS(:,2),X13LS(:,1), 'yo');
 %%%%%%%%%%%%%%%%%%% Part b)
 global x21s j2s f2s; 
 syms x21s j2s f2s; 
