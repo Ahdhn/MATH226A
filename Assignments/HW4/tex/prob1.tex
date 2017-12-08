@@ -1,3 +1,55 @@
 \section*{Problem No.1} \label{sec:prob1}
 
-\paragraph{Part 1:} 
+\paragraph{Part a:} 
+
+Since $T_{n}(x)$ is the Chebyshev polynomial of degree $n$ and since $p(x)$ subtracts a higher degree polynomial ($T_{n+1}(x)$) from a lower degree one ($T_{n-1}(x)$), then $p(x)$ is guaranteed to be of degree $n+1$. 
+
+Since the Chebyshev polynomial $T_{n}(x)$ has leading coefficient of $2^{n-1}$ and since the highest degree of $p(x)$ is $n+1$, then the leading coefficient of $T_{n+1}(x)-T_{n-1}(x)$ is $2^{n}$. This makes $p(x)$ a monic polynomial of degree $n+1$. 
+
+$p(x)$ will go to zero when $T_{n+1}(x) = T_{n-1}(x)$. Substituting by the definition of Chebyshev polynomial, we get 
+\[
+cos((n+1)\theta) =  cos((n-1)\theta), \theta = cos^{-1}(x)
+\]
+Only when $\theta = \frac{k\pi}{n}$ for $k=0,\cdots, n$ the above equation will be satisfied. Thus, $p(x)$ has roots at $x_{k}=cos(\frac{k\pi}{n})$ for $k=0,\cdots, n$. 
+
+
+Let $q(x)$ be another monic polynomial of degree $(n+1)$ and has roots at $x_{k}=cos(\frac{k \pi}{n})$, $k=0,\cdots, n$. Let $s(x)=p(x)-q(x)$, then $s(x)$ is at most of degree $n$. At the same time $s(x)$ must have roots at $(n+1)$ points which is possible only if $s(x)=0$. Thus, $p(x)$ is unique. 
+
+Since the polynomial that is written as $ \prod_{j=0}^{n}(x-x_{j})$ is an monic $(n+1)$ degree polynomial and since $p(x)$ is unique. Then we can write $p(x) = \prod_{j=0}^{n}(x-x_{j})$. 
+
+\paragraph{Part b:} 
+The weight can be expressed as 
+\[
+w_{k} = \frac{1}{\prod_{j\neq k}(x_{k}-x_{j})} = \frac{1}{p^{\prime}(x_{k})}
+\]
+where $p(x) = \prod_{j=0}^{n}(x-x_{j})$ and $x_{j} = cos(\frac{k\pi}{n})$. 
+\[
+w_{k} = \frac{2^{n}}{T^{\prime}_{n+1}(x_{k}) - T^{\prime}_{n-1}(x_{k})}
+\]
+
+Let $\theta = cos^{-1}(x)$. Then $d(x) = sin(\theta).d(\theta)$ and we get 
+\[
+p(x) = 2^{-n}\left( cos\left((n+1)\theta \right) - cos\left((n-1)\theta \right) \right)
+\]
+\[
+p^{\prime}(x) = 2^{-n}\left( \frac{(n+1)sin((n+1)\theta)}{sin(\theta)} - \frac{(n-1)sin((n-1)\theta)}{sin(\theta)}\right)
+\]
+
+Thus
+\[
+w_{k} = \frac{2^{n}}{\left( \frac{(n+1)sin((n+1)\theta)}{sin(\theta)} - \frac{(n-1)sin((n-1)\theta)}{sin(\theta)}\right)}
+\]
+Since $x_{k} = cos(\frac{k\pi}{n})$, then $\theta = \frac{k\pi}{n}$. Thus when $k=0$ and $k=n$ , we get $w_{0}=\frac{2^{n-2}}{n}$ and $w_{n}=\frac{(-1)^{n}2^{n-2}}{n}$ by taking the limits as $\theta$ goes to $0$ and $n$ respectively \cite{doi:10.1093/comjnl/15.2.156}.
+
+\noindent For $1\leq k \leq n-1$, we get $w_{k} = \frac{(-1)^{k}2^{n-1}}{n}$. Since $w_{k}$ appears in the numerator and denominator of $p(x)$,  the term $\frac{2^{n-1}}{n}$ will cancel and we can express $p(x)$ as 
+\[
+p(x) =\frac{\sum^{n}_{k=0}\frac{\tilde{w_{k}}}{(x-x_{k})}f_{k} }{\sum^{n}_{k=0}\frac{\tilde{w_{k}}}{(x-x_{k})}}
+\]
+where 
+\[
+\tilde{w_{k}} = 
+\begin{cases}
+(-1)^{k} \quad 1\leq k \leq n-1\\
+\frac{(-1)^{k}}{2} \quad  \quad k=0,n
+\end{cases}
+\]
