@@ -2,4 +2,34 @@
 \paragraph{Part a:} The computes each sub-interval (.i.e, $a-c$ and $c-b$) twice; one before the refinement and one after. It would have been more efficient to pass this evaluation in the recursive call rather than computing them twice. 
 
 \paragraph{Part b:}
+The following table sums the results of running \emph{quad} and \emph{adapt} function to evaluate $\int^{1}_{0}=\frac{1}{x+0.01}.dx$.
 
+\begin{figure}[H]
+ \centering
+\begin{tabular}{ |c || c|c|c |}
+ \hline
+  & Value & Error & Function Evaluation count \\   	
+  \hhline{|=|=|=|=|}                           
+\emph{adopt}  &  4.615120516877013 & 3.575451046344824e-11  & 10665 \\
+\emph{quad}   & 4.615120516845291  & 4.032330025438569e-12  & 577 \\
+ \hline
+\end{tabular} 
+  \caption{Results of running \emph{quad} and \emph{adopt} to evaluate the integrand. }
+   \label{tab:err}
+\end{figure}
+
+\emph{adopt} needs $18x$ more function evaluations. At each step, \emph{adopt} needs to at least performs two more (redundant) function evaluations. It is possible that with increasing number of function evaluations, a loss in precision increases and thus less accurate results are obtained and even more functions evaluations are needed. 
+\paragraph{Part c:}
+The error term in the composite Simpsons rule is $R_{T} = \frac{(b-a)}{180} h^{4} f^{4}(\zeta)$, $\zeta \in [a,b]$. Thus, in order to get the error below $10^{-10}$, we need
+\[
+R_{T} = \frac{1}{180}h^{4} \frac{24}{(\zeta+0.01)^{5}} < 10^{-10}
+\]
+The term $\frac{24}{(x+0.01)^{5}}$ is maximum when $\zeta=0$. For that, we get $n>60427$.
+
+For composite Trapezoidal rule, the error term is $R_{T} = -\frac{1}{12}(b-a)h^{2}f^{\prime \prime}(\zeta)$, $\zeta \in [a,b]$. For our function, we get
+\[
+R_{T} = \frac{-1}{12} h^{2} \frac{2}{(\zeta + 0.01)^{3}} < 10^{-10}
+\]
+When $\zeta = 0$, we get $n=4 * 10^7$
+\paragraph{Part b:}
+We run the composite Simpson's rule code in order to get the error below $10^{-10}$. Within 1000, it was not possible to get such low value of error. The minimum we get using 1000 point is $3.257 10^{-6}$. In order to get the error below $10^{-10}$, we had to use 13512 points. 
